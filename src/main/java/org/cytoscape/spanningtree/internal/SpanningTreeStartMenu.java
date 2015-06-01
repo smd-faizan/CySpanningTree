@@ -29,6 +29,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     CyNetworkView currentnetworkview;
     public CyActivator cyactivator;
     static String edgeWeightAttribute;
+    public static CyColumn edgeWeightAttributeColumn;
     public SpanningTreeThread spannigTreeThread;
 
     public SpanningTreeStartMenu(CyActivator cyactivator, SpanningTreeCore spanningtreecore) {
@@ -303,6 +304,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             }
         } else {
             if(edgeTable.getColumn(edgeWeightAttribute) != null){
+                edgeWeightAttributeColumn = edgeTable.getColumn(edgeWeightAttribute);
                 System.out.println("using "+edgeWeightAttribute+" as edge attribute.");
                 return edgeWeightAttribute;
             } else{

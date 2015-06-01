@@ -87,7 +87,7 @@ public class SpanningTreeThread extends Thread {
                 if (edges.size() > 0) {
                     CyRow row = edgeTable.getRow(edges.get(0).getSUID());
                     try {
-                        adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(row.get(edgeWeightAttribute, String.class));
+                        adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
                     } catch (NumberFormatException ex) {
                     }
                 }
@@ -208,6 +208,12 @@ public class SpanningTreeThread extends Thread {
         for (int i = 0; i < nodeList.size(); i++) {
             SpanningTree.getRow(nodesInNewNetwork.get(i)).set(CyNetwork.NAME, nodeTable.getRow(nodeList.get(i).getSUID()).get(CyNetwork.NAME, String.class));
         }
+        // add edge atribute with name edgeWeightAttribute
+        CyTable edgeTable = SpanningTree.getDefaultEdgeTable();
+        if(edgeTable.getColumn(edgeWeightAttribute) == null){
+            edgeTable.createColumn(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType(), 
+                    SpanningTreeStartMenu.edgeWeightAttributeColumn.isImmutable());
+        }
         //add edges
         for (int i = 0; i < totalnodecount; i++) {
             for (int j = 0; j < totalnodecount; j++) {
@@ -215,7 +221,14 @@ public class SpanningTreeThread extends Thread {
                 if (maxi > Integer.MIN_VALUE && maxi < Integer.MAX_VALUE) {
                     CyEdge root = SpanningTree.addEdge(nodesInNewNetwork.get(i), nodesInNewNetwork.get(j), true);
                     CyRow row = SpanningTree.getDefaultEdgeTable().getRow(root.getSUID());
-                    row.set(edgeWeightAttribute, "" + maxi);
+                    if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == String.class)
+                        row.set(edgeWeightAttribute, "" + maxi);
+                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Double.class)
+                        row.set(edgeWeightAttribute, maxi);
+                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Long.class)
+                        row.set(edgeWeightAttribute, (long)maxi);
+                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Integer.class)
+                        row.set(edgeWeightAttribute, (int)maxi);
                 }
             }
         }
