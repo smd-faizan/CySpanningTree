@@ -264,7 +264,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
         if(edgeWeightAttribute == null)
             return;
-        pTreeThread = new PrimsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, this);
+        pTreeThread = new PrimsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, askRootNode(), this);
         pTreeThread.start();  
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -340,6 +340,24 @@ public String inputEdgeAttributeAndValidate(CyTable edgeTable){
         }
     }
     
+    public CyNode askRootNode(){
+        CyNode rootNode=null;
+        String rootNodeName =  JOptionPane.showInputDialog(null, "Enter the name of rootNode for Prim's algo (case sensitive).");
+        if(rootNodeName!=null){
+            for(CyNode node:currentnetwork.getNodeList()){
+                if(currentnetwork.getRow(node).get(CyNetwork.NAME, String.class).equals(rootNodeName)){
+                    rootNode = node;
+                }
+            }
+            if(rootNode == null){
+                JOptionPane.showMessageDialog(null, " no node with name "+rootNodeName+" exists. Using random rootnode!", "Spanning Tree", JOptionPane.WARNING_MESSAGE);
+            }
+  
+        } else{
+        }
+        return rootNode;
+    }
+
     
     public void endOfComputation(String message) {
     	statusBar.setIndeterminate(false);

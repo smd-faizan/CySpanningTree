@@ -22,13 +22,16 @@ public class PrimsTreeThread extends Thread{
     public CyNetwork currentnetwork;
     public CyNetworkView currentnetworkview;
     boolean isMinimum;
+    CyNode rootNode;
     String edgeWeightAttribute;
     SpanningTreeStartMenu menu;
     
-    public PrimsTreeThread(CyNetwork currentnetwork, CyNetworkView currentnetworkview, boolean isMinimum, String edgeWeightAttribute, SpanningTreeStartMenu menu) {
+    public PrimsTreeThread(CyNetwork currentnetwork, CyNetworkView currentnetworkview, boolean isMinimum, String edgeWeightAttribute, CyNode rootNode, SpanningTreeStartMenu menu) {
         this.currentnetwork = currentnetwork;
         this.currentnetworkview = currentnetworkview;
         this.isMinimum = isMinimum;
+        this.rootNode = rootNode;
+        System.out.println("rootNoderootNode"+rootNode);
         this.edgeWeightAttribute = edgeWeightAttribute;
         this.menu = menu;
     }
@@ -43,59 +46,104 @@ public class PrimsTreeThread extends Thread{
         List<CyNode> nodeList = currentnetwork.getNodeList();
         CyTable edgeTable = currentnetwork.getDefaultEdgeTable();
         int totalnodecount = nodeList.size();
-        
         List<CyNode> nodes = new ArrayList<CyNode>();// spanning tree nodes, all nodes ideally
         List<CyEdge> edges = new ArrayList<CyEdge>();// spanning tree edges
         boolean[] visited = new boolean[totalnodecount];
         for(int i=0;i<visited.length;i++){
             visited[i] = false;
         }
-        visited[0] = true; // Consider 0th element in nodeList to be starting node
-        nodes.add(nodeList.get(0));
-        double min = Double.MAX_VALUE; // Consider minimal. spanning tree for now
+        if(rootNode==null){
+            rootNode = nodeList.get(0);
+        }
+        visited[nodeList.indexOf(rootNode)] = true;
+        nodes.add(rootNode);
+        double cmp;
         double edgeValue;
         
         ListIterator<CyNode> itr; 
-        
-        while(nodes.size() != totalnodecount){
-            CyNode nextNode = null;
-            CyEdge nextEdge = null;
-            CyNode s;
-            itr = nodes.listIterator();
-            while(itr.hasNext()){
-                if(stop)
-                return;
-                s = itr.next();
-                List<CyNode> neighbors = currentnetwork.getNeighborList(s, CyEdge.Type.ANY);
-                for (CyNode neighbor : neighbors) {
-                    if(!visited[nodeList.indexOf(neighbor)]){
-                        List<CyEdge> edgesTo = currentnetwork.getConnectingEdgeList(s, neighbor, CyEdge.Type.DIRECTED);
-                        if (edgesTo.size() > 0) {
-                            CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
-                            try {
-                                edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
-                                if(edgeValue < min){
-                                    min = edgeValue;
-                                    nextNode = neighbor;
-                                    nextEdge = edgesTo.get(0);
+        if(isMinimum){
+            while(nodes.size() != totalnodecount){
+                cmp = Double.MAX_VALUE; 
+                CyNode nextNode = null;
+                CyEdge nextEdge = null;
+                CyNode curr;
+                itr = nodes.listIterator();
+                while(itr.hasNext()){
+                    if(stop)
+                    return;
+                    curr = itr.next();
+                    List<CyNode> neighbors = currentnetwork.getNeighborList(curr, CyEdge.Type.ANY);
+                    for (CyNode neighbor : neighbors) {
+                        if(!visited[nodeList.indexOf(neighbor)]){
+                            List<CyEdge> edgesTo = currentnetwork.getConnectingEdgeList(curr, neighbor, CyEdge.Type.DIRECTED);
+                            if (edgesTo.size() > 0) {
+                                CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
+                                try {
+                                    edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    System.out.println("edgeValueedgeValue"+edgeValue);
+                                    if (edgeValue < cmp) {
+                                        cmp = edgeValue;
+                                        nextNode = neighbor;
+                                        nextEdge = edgesTo.get(0);
+                                    } 
+                                } catch (NumberFormatException ex) {
                                 }
-                                
-                            } catch (NumberFormatException ex) {
                             }
+
                         }
-                        
+
                     }
-                    
+
                 }
-                
+                if(nextNode!=null && nextEdge!=null){
+                    nodes.add(nextNode);
+                    edges.add(nextEdge);
+                    visited[nodeList.indexOf(nextNode)] = true;
+                }
             }
-            if(nextNode!=null && nextEdge!=null){
-                nodes.add(nextNode);
-                edges.add(nextEdge);
-                visited[nodeList.indexOf(nextNode)] = true;
-                min = Double.MAX_VALUE;
-            }
+              
+        } else{
+            while(nodes.size() != totalnodecount){
+                cmp = Double.MIN_VALUE; 
+                CyNode nextNode = null;
+                CyEdge nextEdge = null;
+                CyNode curr;
+                itr = nodes.listIterator();
+                while(itr.hasNext()){
+                    if(stop)
+                    return;
+                    curr = itr.next();
+                    List<CyNode> neighbors = currentnetwork.getNeighborList(curr, CyEdge.Type.ANY);
+                    for (CyNode neighbor : neighbors) {
+                        if(!visited[nodeList.indexOf(neighbor)]){
+                            List<CyEdge> edgesTo = currentnetwork.getConnectingEdgeList(curr, neighbor, CyEdge.Type.DIRECTED);
+                            if (edgesTo.size() > 0) {
+                                CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
+                                try {
+                                    edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    System.out.println("edgeValueedgeValue"+edgeValue);
+                                    if (edgeValue > cmp) {
+                                        cmp = edgeValue;
+                                        nextNode = neighbor;
+                                        nextEdge = edgesTo.get(0);
+                                    } 
+                                } catch (NumberFormatException ex) {
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+                if(nextNode!=null && nextEdge!=null){
+                    nodes.add(nextNode);
+                    edges.add(nextEdge);
+                    visited[nodeList.indexOf(nextNode)] = true;
+                }
+            }                    
         }
+
         createNetwork(nodes, edges);
         
         long lEndTime = System.currentTimeMillis();
@@ -115,4 +163,5 @@ public class PrimsTreeThread extends Thread{
         CyActivator.networkViewManager.addNetworkView(stView);      
     }
      
+
 }
