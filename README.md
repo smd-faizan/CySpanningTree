@@ -16,9 +16,8 @@ mvn clean install
 SpanningTree v1.0
 =============================================================
 
-This app lets you create Spanning tree and All pair Shortest Paths from a given graph in Cytoscape.
+This app lets you extract Spanning tree for a given cytoscape network through Prim's and Kruskal's algorithms.
 
-TODO
 
 # README #
 
