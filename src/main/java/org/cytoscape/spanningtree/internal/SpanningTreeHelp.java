@@ -60,19 +60,7 @@ public class SpanningTreeHelp extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setText(int buttonNumber) {
-        String secondSpanningTree = 
-                "Second Spanning Tree:\n\n\n"
-                + "Spanning tree which does not include any of the edges form the first \n"
-                + "spanning tree. It is calculated as below.\n"
-                + "First create a graph by removing all the edges of first spanning tree \n"
-                + "from the original graph. Now calculate the spanning tree for this new \n"
-                + "graph.\n\n"
-                ;
-        String APSP = 
-                "All-Pair-Shortest-Path  graph:\n\n\n"
-                + "All-Pair-Shortest-Path also known as Floyd Warshall Algorithm. Deatils \n"
-                + "can be found in the wiki http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm\n\n"
-                ;
+      
         helpString =
                 "Tree: \n\n"
                 + "Tree is a minimally connected graph. Specifically in graph theory,\n"
@@ -81,18 +69,19 @@ public class SpanningTreeHelp extends javax.swing.JFrame {
                 + "simple cycles is a tree.\n\n"
                 + "Spanning Tree :\n\n\n"
                 + "Given a graphA which is not a tree, we can make graphA a tree by eliminating\n"
-                + "some edges and thus we can be able to construct a tree out of the graphA.\n"
-                + "This problem becomes interesting when edges have weights. Now, removing\n"
-                + "different edges in graphA results in different trees. In a minimum spanning tree,\n"
-                + "one would ideally remove edges with high weights (or) low weights depending upon\n"
-                + "the problem.When it comes to simulation of transportation network where\n"
-                + "edges represent the distance between cities, one would like to remove edges\n"
-                + "with high weights(distances) to form spanning tree. When it comes to simulation\n"
-                + "of wireless sensor network where edges represent the edge connectivity, one\n"
-                + "would like to remove edges which have less edge connectivity to ensure reliability\n"
-                + "constraints.\n\n"
-                + secondSpanningTree
-                + APSP;
+                + "Given a connected graph, which is not a tree, one can extract(subgraph)a\n"
+                + "tree out of the given graph by eliminating some edges(cyclic edges)\n"
+                + "A spanning tree has (V-1) edges where V is the number of vertices in the given graph. "
+                + "Extracting a spanning tree gets interesting when given graph is a weighted graph."
+                + " In finding minimal/maximal spanning tree, one would ideally extract the tree whose "
+                + "sum of weights is minimum/maximum. The weight of a spanning tree is the sum of weights"
+                + " given to each edge of the spanning tree. "
+                + "There may be several minimum spanning trees of the same weight having a minimum number of edges; in particular, "
+                + "if all the edge weights of a given graph are the same, "
+                + "then every spanning tree of that graph is minimum. "
+                + "If each edge has a distinct weight then there will be only one, unique minimum spanning tree. \n\n" ;
+                
+
         this.setTitle("Spanning Tree Help : ");
         
         jTextArea1.setText(helpString);
