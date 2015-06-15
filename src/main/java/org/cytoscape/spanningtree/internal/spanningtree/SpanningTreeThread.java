@@ -8,6 +8,8 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import java.util.ArrayList;
 import java.util.List;
 import org.cytoscape.model.*;
+import org.cytoscape.model.subnetwork.CyRootNetwork;
+import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.spanningtree.internal.CyActivator;
 import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscape.spanningtree.internal.visuals.Saloon;
@@ -190,6 +192,31 @@ public class SpanningTreeThread extends Thread {
     }
 
     public void createNetwork(double[][] adjacencyMatrixOfNewNetwork, List<CyNode> nodeList, CyTable nodeTable, int totalnodecount) {
+        // get a edges in a List
+        List<CyEdge> stEdgeList = new ArrayList<CyEdge>();
+        for (int i = 0; i < totalnodecount; i++) {
+            for (int j = 0; j < totalnodecount; j++) {
+                double maxi = adjacencyMatrixOfNewNetwork[i][j];
+                if (maxi > Integer.MIN_VALUE && maxi < Integer.MAX_VALUE) {
+                    // TODO: Faizaan still have a doubt whether to use CyEdge.Type.DIRECTED / CyEdge.Type.ANY
+                    List<CyEdge> edges = currentnetwork.getConnectingEdgeList(nodeList.get(i), nodeList.get(j), CyEdge.Type.DIRECTED);
+                    if(edges.size() > 0)
+                        stEdgeList.add(edges.get(0));
+                }
+            }
+        }
+        CyRootNetwork root = ((CySubNetwork)currentnetwork).getRootNetwork();
+        CyNetwork stNetwork = root.addSubNetwork(nodeList, stEdgeList);
+        stNetwork.getRow(stNetwork).set(CyNetwork.NAME, "Kruskal's Spanning Tree");
+        CyNetworkManager networkManager = CyActivator.networkManager;
+        networkManager.addNetwork(stNetwork);
+        CyNetworkView stView = CyActivator.networkViewFactory.createNetworkView(stNetwork);
+        CyActivator.networkViewManager.addNetworkView(stView);
+                    
+                    
+        
+        
+        /* Let it RIP for sometime
         CyNetwork SpanningTree;
         // To get a reference of CyNetworkFactory at CyActivator class of the App
         CyNetworkFactory networkFactory = CyActivator.networkFactory;
@@ -243,6 +270,7 @@ public class SpanningTreeThread extends Thread {
         
         // Apply Style
 //        Saloon.applyStyle(myView);
+                */
     }
 
     // Used when testing
