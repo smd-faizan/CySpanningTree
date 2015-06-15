@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkManager;
@@ -13,6 +14,10 @@ import org.cytoscape.model.CyTable;
 import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
+import org.cytoscape.view.layout.CyLayoutAlgorithm;
+import org.cytoscape.work.TaskIterator;
+import org.cytoscape.work.SynchronousTaskManager;
 
 import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscape.spanningtree.internal.CyActivator;
@@ -160,9 +165,30 @@ public class PrimsTreeThread extends Thread{
         CyNetworkManager networkManager = CyActivator.networkManager;
         networkManager.addNetwork(stNetwork);
         CyNetworkView stView = CyActivator.networkViewFactory.createNetworkView(stNetwork);
-        CyActivator.networkViewManager.addNetworkView(stView);      
+        CyActivator.networkViewManager.addNetworkView(stView);
+        updateView(stView, "grid");// 2nd argument name of layout
     }
-     
+    
+    public void updateView(CyNetworkView view, String layoutAlgorName){
+        CyAppAdapter appAdapter = CyActivator.getCyAppAdapter();
+        CyLayoutAlgorithmManager alMan = appAdapter.getCyLayoutAlgorithmManager();
+        CyLayoutAlgorithm algor = null;
+        if (layoutAlgorName == null) {
+            algor = alMan.getDefaultLayout(); // default grid layout
+        } else{
+            algor = alMan.getLayout(layoutAlgorName);
+        }
+        if(algor == null){
+            algor = alMan.getDefaultLayout();
+            throw new IllegalArgumentException ("No such algorithm found '" + layoutAlgorName + "'.");
+        }
+        TaskIterator itr = algor.createTaskIterator(view,algor.createLayoutContext(),CyLayoutAlgorithm.ALL_NODE_VIEWS,null);
+        appAdapter.getTaskManager().execute(itr);// We use the synchronous task manager otherwise the visual style and updateView() may occur before the view is relayed out:
+        SynchronousTaskManager<?> synTaskMan = appAdapter.getCyServiceRegistrar().getService(SynchronousTaskManager.class);           
+        synTaskMan.execute(itr); 
+        view.updateView(); // update view layout part
+        appAdapter.getVisualMappingManager().getVisualStyle(view).apply(view); // update view style part
+    }
     public void end(){
         stop = true;
     }

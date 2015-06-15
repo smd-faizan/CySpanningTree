@@ -1,6 +1,8 @@
 package org.cytoscape.spanningtree.internal;
 
 import java.util.Properties;
+
+import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.model.CyNetworkFactory;
@@ -15,7 +17,7 @@ import org.cytoscape.view.vizmap.VisualStyleFactory;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
-
+    private static CyAppAdapter appAdapter;
     public CyApplicationManager cyApplicationManager;
     public CySwingApplication cyDesktopService;
     public CyServiceRegistrar cyServiceRegistrar;
@@ -33,6 +35,7 @@ public class CyActivator extends AbstractCyActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         String version = new String("1.0");
+        this.appAdapter = getService(context, CyAppAdapter.class);
         this.networkViewManager = getService(context, CyNetworkViewManager.class);
         this.networkViewFactory = getService(context, CyNetworkViewFactory.class);
         this.networkFactory = getService(context, CyNetworkFactory.class);
@@ -65,5 +68,9 @@ public class CyActivator extends AbstractCyActivator {
 
     public SpanningTreeMenuAction getmenuaction() {
         return menuaction;
+    }
+    
+    public static CyAppAdapter getCyAppAdapter(){
+        return appAdapter;
     }
 }
