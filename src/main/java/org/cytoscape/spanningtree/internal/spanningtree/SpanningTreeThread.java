@@ -197,7 +197,7 @@ public class SpanningTreeThread extends Thread {
         SpanningTree = networkFactory.createNetwork();
 
         // Set name for network
-        SpanningTree.getRow(SpanningTree).set(CyNetwork.NAME, "Spanning Tree");
+        SpanningTree.getRow(SpanningTree).set(CyNetwork.NAME, "Kruskal's Spanning Tree");
 
         // Add nodes to the network
         List<CyNode> nodesInNewNetwork = new ArrayList<CyNode>(totalnodecount);

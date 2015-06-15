@@ -255,6 +255,10 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             spannigTreeThread.end();
             stopcalculus(null);
         }
+        if(pTreeThread.isAlive()){
+            pTreeThread.end();
+            stopcalculus(null);
+        }
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -316,12 +320,15 @@ public String inputEdgeAttributeAndValidate(CyTable edgeTable){
         if(edgeWeightAttribute == null || edgeWeightAttribute.equals("")){
             System.out.println("Trying to use 'weight' or distance' or 'CyEdge.INTERACTION' as edge attribute ");
             if(edgeTable.getColumn("weight") != null){
+                edgeWeightAttributeColumn = edgeTable.getColumn("weight");
                 System.out.println("using 'weight' as edge attribute.");
                 return "weight";
             } else if(edgeTable.getColumn("distance") != null){
+                edgeWeightAttributeColumn = edgeTable.getColumn("distance");
                 System.out.println("using 'distance' as edge attribute.");
                 return "distance";
             } else if(edgeTable.getColumn(CyEdge.INTERACTION) != null){
+                edgeWeightAttributeColumn = edgeTable.getColumn(CyEdge.INTERACTION);
                 System.out.println("using 'CyEdge.INTERACTION' as edge attribute.");
                 return CyEdge.INTERACTION;
             } else {

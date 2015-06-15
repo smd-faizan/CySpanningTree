@@ -70,7 +70,7 @@ public class PrimsTreeThread extends Thread{
                 itr = nodes.listIterator();
                 while(itr.hasNext()){
                     if(stop)
-                    return;
+                        return;
                     curr = itr.next();
                     List<CyNode> neighbors = currentnetwork.getNeighborList(curr, CyEdge.Type.ANY);
                     for (CyNode neighbor : neighbors) {
@@ -104,14 +104,14 @@ public class PrimsTreeThread extends Thread{
               
         } else{
             while(nodes.size() != totalnodecount){
-                cmp = Double.MIN_VALUE; 
+                cmp = (double)Integer.MIN_VALUE; 
                 CyNode nextNode = null;
                 CyEdge nextEdge = null;
                 CyNode curr;
                 itr = nodes.listIterator();
                 while(itr.hasNext()){
                     if(stop)
-                    return;
+                        return;
                     curr = itr.next();
                     List<CyNode> neighbors = currentnetwork.getNeighborList(curr, CyEdge.Type.ANY);
                     for (CyNode neighbor : neighbors) {
@@ -163,5 +163,7 @@ public class PrimsTreeThread extends Thread{
         CyActivator.networkViewManager.addNetworkView(stView);      
     }
      
-
+    public void end(){
+        stop = true;
+    }
 }
