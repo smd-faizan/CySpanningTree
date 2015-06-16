@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal.spanningtree;
+package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 /*************************************************************************
  *  Compilation:  javac Bag.java
  *  Execution:    java Bag < input.txt

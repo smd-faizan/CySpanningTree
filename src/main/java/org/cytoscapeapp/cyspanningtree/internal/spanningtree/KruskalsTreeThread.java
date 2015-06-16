@@ -1,19 +1,14 @@
-package org.cytoscape.spanningtree.internal.spanningtree;
+package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import java.util.ArrayList;
 import java.util.List;
 import org.cytoscape.model.*;
 import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
-import org.cytoscape.spanningtree.internal.CyActivator;
-import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
-import org.cytoscape.spanningtree.internal.visuals.Saloon;
-import org.cytoscape.spanningtree.internal.visuals.SpanningTreeUpdateView;
+import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
+import org.cytoscapeapp.cyspanningtree.internal.visuals.SpanningTreeUpdateView;
 import org.cytoscape.view.model.CyNetworkView;
-import org.cytoscape.view.presentation.property.BasicVisualLexicon;
-import org.cytoscape.view.vizmap.VisualStyle;
-import org.cytoscape.view.vizmap.mappings.PassthroughMapping;
 
 /**
  *

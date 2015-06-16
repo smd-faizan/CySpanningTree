@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal.clustering;
+package org.cytoscapeapp.cyspanningtree.internal.clustering;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,7 +6,7 @@ import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyTable;
-import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
 
 /**
  *

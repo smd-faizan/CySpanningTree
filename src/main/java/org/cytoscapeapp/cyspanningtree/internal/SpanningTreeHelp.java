@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal;
+package org.cytoscapeapp.cyspanningtree.internal;
 
 /**
  *

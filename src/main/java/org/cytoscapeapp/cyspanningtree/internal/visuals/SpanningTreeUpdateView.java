@@ -1,7 +1,7 @@
-package org.cytoscape.spanningtree.internal.visuals;
+package org.cytoscapeapp.cyspanningtree.internal.visuals;
 
 import org.cytoscape.app.CyAppAdapter;
-import org.cytoscape.spanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
 import org.cytoscape.view.layout.CyLayoutAlgorithm;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkView;

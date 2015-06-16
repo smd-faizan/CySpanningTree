@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal.spanningtree;
+package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 
 import java.util.Stack;
 

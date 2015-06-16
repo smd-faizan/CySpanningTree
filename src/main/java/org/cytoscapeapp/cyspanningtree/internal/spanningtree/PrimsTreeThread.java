@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal.spanningtree;
+package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.view.model.CyNetworkView;
 
-import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
-import org.cytoscape.spanningtree.internal.CyActivator;
-import org.cytoscape.spanningtree.internal.visuals.SpanningTreeUpdateView;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
+import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.visuals.SpanningTreeUpdateView;
 
 public class PrimsTreeThread extends Thread{
     public boolean stop;

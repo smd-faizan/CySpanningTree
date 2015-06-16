@@ -1,9 +1,11 @@
-package org.cytoscape.spanningtree.internal;
+package org.cytoscapeapp.cyspanningtree.internal;
 
 import java.awt.event.ActionEvent;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeCore;
 
 /**
  * Creates a new menu item under Apps menu section.

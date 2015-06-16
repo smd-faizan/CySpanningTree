@@ -1,4 +1,4 @@
-package org.cytoscape.spanningtree.internal;
+package org.cytoscapeapp.cyspanningtree.internal;
 
 
 /**
@@ -13,9 +13,12 @@ import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.model.*;
-import org.cytoscape.spanningtree.internal.spanningtree.KruskalsTreeThread;
-import org.cytoscape.spanningtree.internal.spanningtree.PrimsTreeThread;
+import org.cytoscapeapp.cyspanningtree.internal.spanningtree.KruskalsTreeThread;
+import org.cytoscapeapp.cyspanningtree.internal.spanningtree.PrimsTreeThread;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeCore;
+import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeHelp;
 
 public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPanelComponent {
 
