@@ -32,7 +32,6 @@ public class PrimsTreeThread extends Thread{
         this.currentnetworkview = currentnetworkview;
         this.isMinimum = isMinimum;
         this.rootNode = rootNode;
-        System.out.println("rootNoderootNode"+rootNode);
         this.edgeWeightAttribute = edgeWeightAttribute;
         this.menu = menu;
     }
@@ -81,7 +80,6 @@ public class PrimsTreeThread extends Thread{
                                 CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
                                 try {
                                     edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
-                                    System.out.println("edgeValueedgeValue"+edgeValue);
                                     if (edgeValue < cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;
@@ -122,7 +120,6 @@ public class PrimsTreeThread extends Thread{
                                 CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
                                 try {
                                     edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
-                                    System.out.println("edgeValueedgeValue"+edgeValue);
                                     if (edgeValue > cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;

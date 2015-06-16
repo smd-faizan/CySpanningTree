@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.cytoscape.spanningtree.internal.spanningtree;
 
 import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
@@ -22,7 +18,7 @@ import org.cytoscape.view.vizmap.mappings.PassthroughMapping;
  *
  * @author smd.faizan@gmail.com
  */
-public class SpanningTreeThread extends Thread {
+public class KruskalsTreeThread extends Thread {
     public boolean stop;
     public CyNetwork currentnetwork;
     public CyNetworkView currentnetworkview;
@@ -30,7 +26,7 @@ public class SpanningTreeThread extends Thread {
     String edgeWeightAttribute;
     SpanningTreeStartMenu menu;
 
-    public SpanningTreeThread(CyNetwork currentnetwork, CyNetworkView currentnetworkview, boolean isMinimum, String edgeWeightAttribute, SpanningTreeStartMenu menu) {
+    public KruskalsTreeThread(CyNetwork currentnetwork, CyNetworkView currentnetworkview, boolean isMinimum, String edgeWeightAttribute, SpanningTreeStartMenu menu) {
         this.currentnetwork = currentnetwork;
         this.currentnetworkview = currentnetworkview;
         this.isMinimum = isMinimum;

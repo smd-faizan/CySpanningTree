@@ -1,8 +1,3 @@
-/*
- * SpanningTreeHelp.java
- *
- * Created on 22 Dec 2013, 21.19
- */
 package org.cytoscape.spanningtree.internal;
 
 /**

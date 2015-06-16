@@ -1,9 +1,5 @@
 package org.cytoscape.spanningtree.internal;
-/*
- * SpanningTreeStartMenu.java
- *
- * Created on 22 Dec 2013, 18.38
- */
+
 
 /**
  *
@@ -17,7 +13,7 @@ import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.model.*;
-import org.cytoscape.spanningtree.internal.spanningtree.SpanningTreeThread;
+import org.cytoscape.spanningtree.internal.spanningtree.KruskalsTreeThread;
 import org.cytoscape.spanningtree.internal.spanningtree.PrimsTreeThread;
 import org.cytoscape.view.model.CyNetworkView;
 
@@ -31,7 +27,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     public CyActivator cyactivator;
     static String edgeWeightAttribute;
     public static CyColumn edgeWeightAttributeColumn;
-    public SpanningTreeThread spannigTreeThread;
+    public KruskalsTreeThread spannigTreeThread;
     public PrimsTreeThread pTreeThread;
 
     public SpanningTreeStartMenu(CyActivator cyactivator, SpanningTreeCore spanningtreecore) {
@@ -55,7 +51,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        spanningTreeButton = new javax.swing.JButton();
+        kruskalsTreeButton = new javax.swing.JButton();
         maxRadioButton = new javax.swing.JRadioButton();
         minRadioButton = new javax.swing.JRadioButton();
         exitButton = new javax.swing.JButton();
@@ -63,7 +59,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         helpButton = new javax.swing.JButton();
         statusBar = new javax.swing.JProgressBar();
         stopButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        primsTreeButton = new javax.swing.JButton();
         edgeAttributeTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
@@ -80,10 +76,10 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
 
         jLabel1.setText("Click the buttons to make a spanning tree network");
 
-        spanningTreeButton.setText("Create Kruskal's Spanning Tree");
-        spanningTreeButton.addActionListener(new java.awt.event.ActionListener() {
+        kruskalsTreeButton.setText("Create Kruskal's Spanning Tree");
+        kruskalsTreeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                spanningTreeButtonActionPerformed(evt);
+                kruskalsTreeButtonActionPerformed(evt);
             }
         });
 
@@ -117,10 +113,10 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             }
         });
 
-        jButton1.setText("Create Prim's Spanning Tree");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        primsTreeButton.setText("Create Prim's Spanning Tree");
+        primsTreeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                primsTreeButtonActionPerformed(evt);
             }
         });
 
@@ -153,9 +149,9 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                         .add(0, 0, Short.MAX_VALUE))
                     .add(edgeAttributeTextField)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .add(jButton1)
+                        .add(primsTreeButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(spanningTreeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(kruskalsTreeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -169,8 +165,8 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(maxRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(spanningTreeButton)
-                    .add(jButton1))
+                    .add(kruskalsTreeButton)
+                    .add(primsTreeButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(edgeAttributeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
@@ -230,15 +226,15 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void spanningTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spanningTreeButtonActionPerformed
+    private void kruskalsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kruskalsTreeButtonActionPerformed
         currentnetworkview = cyApplicationManager.getCurrentNetworkView();
         currentnetwork = currentnetworkview.getModel();
         edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
         if(edgeWeightAttribute == null)
             return;
-        spannigTreeThread = new SpanningTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, this);
+        spannigTreeThread = new KruskalsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, this);
         spannigTreeThread.start();
-    }//GEN-LAST:event_spanningTreeButtonActionPerformed
+    }//GEN-LAST:event_kruskalsTreeButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         // TODO add your handling code here:
@@ -265,7 +261,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         }
     }//GEN-LAST:event_stopButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void primsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primsTreeButtonActionPerformed
         // TODO add your handling code here:
         currentnetworkview = cyApplicationManager.getCurrentNetworkView();
         currentnetwork = currentnetworkview.getModel();
@@ -274,22 +270,22 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             return;
         pTreeThread = new PrimsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, askRootNode(), this);
         pTreeThread.start();  
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_primsTreeButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JTextField edgeAttributeTextField;
     private javax.swing.JButton exitButton;
     private javax.swing.JButton helpButton;
-    private javax.swing.JButton jButton1;
     private static javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton kruskalsTreeButton;
     private javax.swing.JRadioButton maxRadioButton;
     private javax.swing.JRadioButton minRadioButton;
-    private javax.swing.JButton spanningTreeButton;
+    private javax.swing.JButton primsTreeButton;
     private javax.swing.JProgressBar statusBar;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JButton stopButton;
@@ -378,7 +374,7 @@ public String inputEdgeAttributeAndValidate(CyTable edgeTable){
             statusLabel.setText("Calculation Done.");
         else
             statusLabel.setText(message);
-        spanningTreeButton.setEnabled(true);
+        kruskalsTreeButton.setEnabled(true);
     }
 
     public void stopcalculus(String message) {
@@ -387,7 +383,7 @@ public String inputEdgeAttributeAndValidate(CyTable edgeTable){
             statusLabel.setText("Interrupted by the user, click start to repeat");
         else
             statusLabel.setText(message);
-        spanningTreeButton.setEnabled(true);
+        kruskalsTreeButton.setEnabled(true);
     }
 
     public void calculatingresult(String message) {
@@ -397,6 +393,6 @@ public String inputEdgeAttributeAndValidate(CyTable edgeTable){
             statusLabel.setText("Working ...");
         else
             statusLabel.setText(message);
-        spanningTreeButton.setEnabled(false);
+        kruskalsTreeButton.setEnabled(false);
     }
 }
