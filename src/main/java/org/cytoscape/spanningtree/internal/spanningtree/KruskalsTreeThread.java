@@ -9,6 +9,7 @@ import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.spanningtree.internal.CyActivator;
 import org.cytoscape.spanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscape.spanningtree.internal.visuals.Saloon;
+import org.cytoscape.spanningtree.internal.visuals.SpanningTreeUpdateView;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 import org.cytoscape.view.vizmap.VisualStyle;
@@ -208,65 +209,8 @@ public class KruskalsTreeThread extends Thread {
         networkManager.addNetwork(stNetwork);
         CyNetworkView stView = CyActivator.networkViewFactory.createNetworkView(stNetwork);
         CyActivator.networkViewManager.addNetworkView(stView);
-                    
-                    
+        SpanningTreeUpdateView.updateView(stView, "grid");// 2nd argument name of layout
         
-        
-        /* Let it RIP for sometime
-        CyNetwork SpanningTree;
-        // To get a reference of CyNetworkFactory at CyActivator class of the App
-        CyNetworkFactory networkFactory = CyActivator.networkFactory;
-        // Create a new network
-        SpanningTree = networkFactory.createNetwork();
-
-        // Set name for network
-        SpanningTree.getRow(SpanningTree).set(CyNetwork.NAME, "Kruskal's Spanning Tree");
-
-        // Add nodes to the network
-        List<CyNode> nodesInNewNetwork = new ArrayList<CyNode>(totalnodecount);
-        for (int i = 0; i < nodeList.size(); i++) {
-            nodesInNewNetwork.add(SpanningTree.addNode());
-        }
-        // Set name for new nodes
-        for (int i = 0; i < nodeList.size(); i++) {
-            SpanningTree.getRow(nodesInNewNetwork.get(i)).set(CyNetwork.NAME, nodeTable.getRow(nodeList.get(i).getSUID()).get(CyNetwork.NAME, String.class));
-        }
-        // add edge atribute with name edgeWeightAttribute
-        CyTable edgeTable = SpanningTree.getDefaultEdgeTable();
-        if(edgeTable.getColumn(edgeWeightAttribute) == null){
-            edgeTable.createColumn(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType(), 
-                    SpanningTreeStartMenu.edgeWeightAttributeColumn.isImmutable());
-        }
-        //add edges
-        for (int i = 0; i < totalnodecount; i++) {
-            for (int j = 0; j < totalnodecount; j++) {
-                double maxi = adjacencyMatrixOfNewNetwork[i][j];
-                if (maxi > Integer.MIN_VALUE && maxi < Integer.MAX_VALUE) {
-                    CyEdge root = SpanningTree.addEdge(nodesInNewNetwork.get(i), nodesInNewNetwork.get(j), true);
-                    CyRow row = SpanningTree.getDefaultEdgeTable().getRow(root.getSUID());
-                    if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == String.class)
-                        row.set(edgeWeightAttribute, "" + maxi);
-                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Double.class)
-                        row.set(edgeWeightAttribute, maxi);
-                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Long.class)
-                        row.set(edgeWeightAttribute, (long)maxi);
-                    else if(SpanningTreeStartMenu.edgeWeightAttributeColumn.getType() == Integer.class)
-                        row.set(edgeWeightAttribute, (int)maxi);
-                }
-            }
-        }
-
-        // Add the network to Cytoscape
-        CyNetworkManager networkManager = CyActivator.networkManager;
-        networkManager.addNetwork(SpanningTree);
-        
-        //Add view to cyto
-//        CyNetworkView myView = CyActivator.networkViewFactory.createNetworkView(SpanningTree);
-//        CyActivator.networkViewManager.addNetworkView(myView);
-        
-        // Apply Style
-//        Saloon.applyStyle(myView);
-                */
     }
 
     // Used when testing
