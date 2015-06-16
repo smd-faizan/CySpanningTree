@@ -27,6 +27,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     public CyActivator cyactivator;
     static String edgeWeightAttribute;
     public static CyColumn edgeWeightAttributeColumn;
+    public static final String DEFAULT_WEIGHT_ATTRIBUTE = "DefaultWeight";
     public KruskalsTreeThread spannigTreeThread;
     public PrimsTreeThread pTreeThread;
 
@@ -61,6 +62,9 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         stopButton = new javax.swing.JButton();
         primsTreeButton = new javax.swing.JButton();
         edgeAttributeTextField = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -122,14 +126,19 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
 
         edgeAttributeTextField.setText("Enter the edge attrribute to be taken as weight");
 
+        jLabel3.setText("Please enter the edge weight in the above text field.");
+
+        jLabel4.setText("Leave blank to treat all the edges with equal weights.");
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jSeparator1)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(statusLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -142,16 +151,18 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                         .add(statusBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(4, 4, 4))
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(maxRadioButton)
-                            .add(minRadioButton))
-                        .add(0, 0, Short.MAX_VALUE))
                     .add(edgeAttributeTextField)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                         .add(primsTreeButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(kruskalsTreeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(kruskalsTreeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(maxRadioButton)
+                            .add(minRadioButton)
+                            .add(jLabel3)
+                            .add(jLabel4))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -163,19 +174,25 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(minRadioButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(maxRadioButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(edgeAttributeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(kruskalsTreeButton)
                     .add(primsTreeButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(edgeAttributeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(statusBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(statusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(stopButton))
-                .add(18, 18, 18)
+                .add(11, 11, 11)
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel3)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(helpButton)
                     .add(exitButton))
@@ -195,7 +212,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel2)
                     .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(0, 812, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -204,7 +221,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(jLabel2)
                 .add(18, 18, 18)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(936, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel5);
@@ -215,7 +232,8 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -279,9 +297,12 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     private javax.swing.JButton helpButton;
     private static javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton kruskalsTreeButton;
     private javax.swing.JRadioButton maxRadioButton;
     private javax.swing.JRadioButton minRadioButton;
@@ -316,27 +337,15 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     }
     
 public String inputEdgeAttributeAndValidate(CyTable edgeTable){
-        //System.out.println("Waiting for user input of edge name..");
         //edgeWeightAttribute = JOptionPane.showInputDialog(null, "Enter the Edge Attribute to be used as edge weight for the network (case sensitive).");
         edgeWeightAttribute = edgeAttributeTextField.getText();
         if(edgeWeightAttribute == null || edgeWeightAttribute.equals("")){
-            System.out.println("Trying to use 'weight' or distance' or 'CyEdge.INTERACTION' as edge attribute ");
-            if(edgeTable.getColumn("weight") != null){
-                edgeWeightAttributeColumn = edgeTable.getColumn("weight");
-                System.out.println("using 'weight' as edge attribute.");
-                return "weight";
-            } else if(edgeTable.getColumn("distance") != null){
-                edgeWeightAttributeColumn = edgeTable.getColumn("distance");
-                System.out.println("using 'distance' as edge attribute.");
-                return "distance";
-            } else if(edgeTable.getColumn(CyEdge.INTERACTION) != null){
-                edgeWeightAttributeColumn = edgeTable.getColumn(CyEdge.INTERACTION);
-                System.out.println("using 'CyEdge.INTERACTION' as edge attribute.");
-                return CyEdge.INTERACTION;
-            } else {
-                JOptionPane.showMessageDialog(null, " no column with name 'weight' or distance' or 'CyEdge.INTERACTION' exists. Exiting!", "Spanning Tree", JOptionPane.ERROR_MESSAGE);
-                return null;
-            }
+            // assume all edges with equal weights.
+            edgeWeightAttribute = DEFAULT_WEIGHT_ATTRIBUTE;
+            if(edgeTable.getColumn(edgeWeightAttribute) == null)
+                edgeTable.createColumn(edgeWeightAttribute, Double.class, false, 1.0);
+            edgeWeightAttributeColumn = edgeTable.getColumn(edgeWeightAttribute);
+            return edgeWeightAttribute;
         } else {
             if(edgeTable.getColumn(edgeWeightAttribute) != null){
                 edgeWeightAttributeColumn = edgeTable.getColumn(edgeWeightAttribute);

@@ -148,7 +148,7 @@ public class PrimsTreeThread extends Thread{
 	long difference = lEndTime - lStartTime;
         System.out.println("End time for PRIMS Spanning Tree algo: " + lEndTime + " milli seconds");
 	System.out.println("Execution time for PRIMS Spanning tree algo: " + difference +" milli seconds");
-        menu.endOfComputation("PRIMS Spanning tree network created in Network panel"); 
+        menu.endOfComputation("Prim's Spanning tree network created in Network panel"); 
     }
     
     public void createNetwork(List<CyNode> stnodeList, List<CyEdge> stedgeList){

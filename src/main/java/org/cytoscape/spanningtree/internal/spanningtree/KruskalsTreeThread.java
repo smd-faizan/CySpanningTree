@@ -63,7 +63,7 @@ public class KruskalsTreeThread extends Thread {
 	long difference = lEndTime - lStartTime;
         System.out.println("End time for Spanning Tree algo: " + lEndTime + " milli seconds");
 	System.out.println("Execution time for Spanning tree algo: " + difference +" milli seconds");
-        menu.endOfComputation("Spanning tree network created in Network panel");
+        menu.endOfComputation("Kruskal's spanning tree network created in Network panel");
     }
 
     public double[][] createAdjMatrix(CyNetwork currentnetwork, List<CyNode> nodeList, CyTable edgeTable, int totalnodecount, String edgeWeightAttribute) {
