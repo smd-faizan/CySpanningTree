@@ -3,6 +3,7 @@ package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import javax.swing.JOptionPane;
 
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
@@ -16,6 +17,7 @@ import org.cytoscape.view.model.CyNetworkView;
 
 import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
+import org.cytoscapeapp.cyspanningtree.internal.cycle.ConnectedComponents;
 import org.cytoscapeapp.cyspanningtree.internal.visuals.SpanningTreeUpdateView;
 
 public class PrimsTreeThread extends Thread{
@@ -26,6 +28,7 @@ public class PrimsTreeThread extends Thread{
     CyNode rootNode;
     String edgeWeightAttribute;
     SpanningTreeStartMenu menu;
+    public CyNetwork STNetwork = null;
     
     public PrimsTreeThread(CyNetwork currentnetwork, CyNetworkView currentnetworkview, boolean isMinimum, String edgeWeightAttribute, CyNode rootNode, SpanningTreeStartMenu menu) {
         this.currentnetwork = currentnetwork;
@@ -38,6 +41,12 @@ public class PrimsTreeThread extends Thread{
     // prims algo
     @Override
     public void run() {
+        ConnectedComponents c = new ConnectedComponents();
+        if(!c.isConnectedNetwork(currentnetwork)){
+            System.out.println("Network is not connected. Multiple components exists! Please input a connected network");
+            JOptionPane.showMessageDialog(null, "Network is not connected. Multiple components exists! Please input a connected network", "Unconnected network!", JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
         menu.calculatingresult(null);
         stop = false;
         long lStartTime = System.currentTimeMillis();
@@ -79,7 +88,10 @@ public class PrimsTreeThread extends Thread{
                             if (edgesTo.size() > 0) {
                                 CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
                                 try {
-                                    edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    if(edgeWeightAttribute == null)
+                                        edgeValue = 1.0;
+                                    else        
+                                        edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
                                     if (edgeValue < cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;
@@ -119,7 +131,10 @@ public class PrimsTreeThread extends Thread{
                             if (edgesTo.size() > 0) {
                                 CyRow row = edgeTable.getRow(edgesTo.get(0).getSUID());
                                 try {
-                                    edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    if(edgeWeightAttribute == null)
+                                        edgeValue = 1.0;
+                                    else
+                                        edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
                                     if (edgeValue > cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;
@@ -154,6 +169,7 @@ public class PrimsTreeThread extends Thread{
     public void createNetwork(List<CyNode> stnodeList, List<CyEdge> stedgeList){
         CyRootNetwork root = ((CySubNetwork)currentnetwork).getRootNetwork();
         CyNetwork stNetwork = root.addSubNetwork(stnodeList, stedgeList);
+        this.STNetwork = stNetwork;
         stNetwork.getRow(stNetwork).set(CyNetwork.NAME, "Prim's Spanning Tree");
         CyNetworkManager networkManager = CyActivator.networkManager;
         networkManager.addNetwork(stNetwork);

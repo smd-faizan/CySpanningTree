@@ -2,6 +2,7 @@ package org.cytoscapeapp.cyspanningtree.internal;
 
 import java.util.Properties;
 import org.cytoscape.application.CyApplicationManager;
+import org.cytoscape.application.events.SetCurrentNetworkListener;
 import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.application.swing.CytoPanel;
 import org.cytoscape.application.swing.CytoPanelComponent;
@@ -9,6 +10,7 @@ import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscapeapp.cyspanningtree.internal.visuals.ChangeEdgeAttributeListener;
 
 /**
  *
@@ -22,7 +24,7 @@ public class SpanningTreeCore {
     public CySwingApplication cyDesktopService;
     public CyServiceRegistrar cyServiceRegistrar;
     public CyActivator cyactivator;
-    public SpanningTreeStartMenu spanningtreestartmenu;
+    public static SpanningTreeStartMenu spanningtreestartmenu;
 
     public SpanningTreeCore(CyActivator cyactivator) {
         this.cyactivator = cyactivator;
@@ -30,6 +32,7 @@ public class SpanningTreeCore {
         this.cyDesktopService = cyactivator.cyDesktopService;
         this.cyServiceRegistrar = cyactivator.cyServiceRegistrar;
         spanningtreestartmenu = createSpanningTreeStartMenu();
+        registerServices();
         updatecurrentnetwork();
     }
 
@@ -72,4 +75,15 @@ public class SpanningTreeCore {
     public CySwingApplication getCyDesktopService() {
         return this.cyDesktopService;
     }
+    
+    public static SpanningTreeStartMenu getSpanningTreeStartMenu(){
+        return spanningtreestartmenu;
+    }
+    
+    void registerServices(){
+        ChangeEdgeAttributeListener changeEdgeAttributeListener = new ChangeEdgeAttributeListener();
+        cyactivator.cyServiceRegistrar.registerService(changeEdgeAttributeListener, SetCurrentNetworkListener.class, new Properties());
+        
+    }
+    
 }

@@ -2,6 +2,7 @@ package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.cytoscape.model.*;
 import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
@@ -9,6 +10,7 @@ import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
 import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscapeapp.cyspanningtree.internal.visuals.SpanningTreeUpdateView;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscapeapp.cyspanningtree.internal.cycle.ConnectedComponents;
 
 /**
  *
@@ -33,6 +35,12 @@ public class KruskalsTreeThread extends Thread {
     // kruskals algo
     @Override
     public void run() {
+        ConnectedComponents c = new ConnectedComponents();
+        if(!c.isConnectedNetwork(currentnetwork)){
+            System.out.println("Network is not connected. Multiple components exists! Please input a connected network");
+            JOptionPane.showMessageDialog(null, "Network is not connected. Multiple components exists! Please input a connected network", "Unconnected network!", JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
         menu.calculatingresult(null);
         stop = false;
         long lStartTime = System.currentTimeMillis();
@@ -81,7 +89,10 @@ public class KruskalsTreeThread extends Thread {
                 if (edges.size() > 0) {
                     CyRow row = edgeTable.getRow(edges.get(0).getSUID());
                     try {
-                        adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                        if(edgeWeightAttribute == null)
+                            adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = 1.0;
+                        else
+                            adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
                     } catch (NumberFormatException ex) {
                     }
                 }
