@@ -91,8 +91,21 @@ public class KruskalsTreeThread extends Thread {
                     try {
                         if(edgeWeightAttribute == null)
                             adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = 1.0;
-                        else
-                            adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                        else{
+                            try{
+                                adjacencyMatrixOfNetwork[k][nodeList.indexOf(neighbor)] = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                            } catch(NumberFormatException ex){
+                                String output = edgeWeightAttribute+" for the Edge ["+ row.get("name", String.class)
+                                        +"] is not a number! it is rather a String ["
+                                        + row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType())
+                                        +"]. Aborting! Please rectify and run the algorithm again.";
+                                System.out.println(output);
+                                JOptionPane.showMessageDialog(null, output, "Data inconsistency!", JOptionPane.ERROR_MESSAGE);
+                                stop = true;
+                                menu.endOfComputation("Aborted by user!");
+                                return null;
+                            }
+                        }
                     } catch (NumberFormatException ex) {
                     }
                 }

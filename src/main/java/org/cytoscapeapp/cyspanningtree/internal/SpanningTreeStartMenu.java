@@ -48,6 +48,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         edgeAttributesComboBox.setModel(new javax.swing.DefaultComboBoxModel(
                 ChangeEdgeAttributeListener.getEdgeAttributes(
                         cyApplicationManager.getCurrentNetworkView().getModel()).toArray()));
+        edgeAttributesComboBox.setSelectedItem("None");
     }
 
     /**
@@ -89,6 +90,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         jPanel5.setBorder(new javax.swing.border.MatteBorder(null));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setName(""); // NOI18N
 
         jLabel1.setText("Click the buttons to make a spanning tree network");
 
@@ -145,7 +147,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             }
         });
 
-        edgeAttributesComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "interaction" }));
+        edgeAttributesComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None" }));
         edgeAttributesComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edgeAttributesComboBoxActionPerformed(evt);
@@ -248,7 +250,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel2)
                     .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -257,7 +259,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(jLabel2)
                 .add(18, 18, 18)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(607, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel5);

@@ -90,8 +90,20 @@ public class PrimsTreeThread extends Thread{
                                 try {
                                     if(edgeWeightAttribute == null)
                                         edgeValue = 1.0;
-                                    else        
-                                        edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    else{
+                                        try{
+                                            edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                        } catch(NumberFormatException ex){
+                                            String output = edgeWeightAttribute+" for the Edge ["+ row.get("name", String.class)
+                                                    +"] is not a number! it is rather a String ["
+                                                    + row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType())+"]";
+                                            System.out.println(output);
+                                            JOptionPane.showMessageDialog(null, output, "Data inconsistency!", JOptionPane.ERROR_MESSAGE);
+                                            stop = true;
+                                            menu.endOfComputation("Aborted by user!");
+                                            return;
+                                        }
+                                    }
                                     if (edgeValue < cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;
@@ -133,8 +145,20 @@ public class PrimsTreeThread extends Thread{
                                 try {
                                     if(edgeWeightAttribute == null)
                                         edgeValue = 1.0;
-                                    else
-                                        edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                    else{
+                                        try{
+                                            edgeValue = Double.parseDouble(""+ row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType()));
+                                        } catch(NumberFormatException ex){
+                                            String output = edgeWeightAttribute+" for the Edge ["+ row.get("name", String.class)
+                                                    +"] is not a number! it is rather a String ["
+                                                    + row.get(edgeWeightAttribute, SpanningTreeStartMenu.edgeWeightAttributeColumn.getType())+"]";
+                                            System.out.println(output);
+                                            JOptionPane.showMessageDialog(null, output, "Data inconsistency!", JOptionPane.ERROR_MESSAGE);
+                                            stop = true;
+                                            menu.endOfComputation("Aborted by user!");
+                                            return;
+                                        }
+                                    }
                                     if (edgeValue > cmp) {
                                         cmp = edgeValue;
                                         nextNode = neighbor;

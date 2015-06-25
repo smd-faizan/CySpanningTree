@@ -25,6 +25,7 @@ public class ChangeEdgeAttributeListener implements SetCurrentNetworkListener{
         SpanningTreeStartMenu menu = SpanningTreeCore.getSpanningTreeStartMenu();
         //menu.getEdgeAttributeComboBox().getModel().getSelectedItem().toString();
         menu.getEdgeAttributeComboBox().setModel(new javax.swing.DefaultComboBoxModel(getEdgeAttributes(network).toArray()));
+        menu.getEdgeAttributeComboBox().setSelectedItem("None");
 
         
     }
@@ -36,11 +37,8 @@ public class ChangeEdgeAttributeListener implements SetCurrentNetworkListener{
         int i = 0;
         for(CyColumn c:edgeColumns){
             if(!c.isPrimaryKey()){
-                if(c.getType()==Double.class || c.getType()==Float.class 
-                        || c.getType()==Integer.class || c.getType()==Long.class ){
-                    columnsToAdd.add(c.getName());
-                    i++;
-                }
+                columnsToAdd.add(c.getName());
+                i++;
             }
         }
         columnsToAdd.add("None");
