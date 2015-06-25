@@ -45,9 +45,10 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         this.spanningtreecore = spanningtreecore;
         cyApplicationManager = cyactivator.getcyApplicationManager();
         cyDesktopService = cyactivator.getcytoscapeDesktopService();
-        edgeAttributesComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-                ChangeEdgeAttributeListener.getEdgeAttributes(
-                        cyApplicationManager.getCurrentNetworkView().getModel()).toArray()));
+        if(cyApplicationManager.getCurrentNetworkView() != null )
+            edgeAttributesComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+                    ChangeEdgeAttributeListener.getEdgeAttributes(
+                            cyApplicationManager.getCurrentNetworkView().getModel()).toArray()));
         edgeAttributesComboBox.setSelectedItem("None");
     }
 
