@@ -12,6 +12,8 @@ import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
 import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
+import static org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu.pTreeThread;
+import org.cytoscapeapp.cyspanningtree.internal.spanningtree.PrimsTreeThread;
 import org.cytoscapeapp.cyspanningtree.internal.visuals.SpanningTreeUpdateView;
 
 /**
@@ -28,22 +30,26 @@ public class HAMCycle extends Thread{
             
     private CyNode startNode;
     private CyNode lastNode;
-    private CyNetwork STNetwork;
     private CyNetwork wholeNetwork;
     private List<CyNode> nodeList;
     private int nodeCount;
     private CyNetworkView currentnetworkview;
     private String edgeWeightAttribute;
     private SpanningTreeStartMenu menu;
+    private PrimsTreeThread pTreeThread;
+    private boolean isMinimum;
+    private CyNetwork STNetwork;
     
-    public HAMCycle(CyNode startNode, CyNetwork STNetwork, CyNetwork wholeNetwork, CyNetworkView currentnetworkview, String edgeWeightAttribute, SpanningTreeStartMenu menu) {
+    public HAMCycle(PrimsTreeThread pTreeThread, CyNode startNode, CyNetwork wholeNetwork, 
+            CyNetworkView currentnetworkview, String edgeWeightAttribute,
+            boolean isMinimum, SpanningTreeStartMenu menu) {
         this.startNode = startNode;
-        this.STNetwork = STNetwork;
         this.wholeNetwork = wholeNetwork;
-        nodeList = STNetwork.getNodeList();
-        nodeCount = STNetwork.getNodeCount();
+        nodeList = wholeNetwork.getNodeList();
+        nodeCount = wholeNetwork.getNodeCount();
         this.currentnetworkview = currentnetworkview;
         this.edgeWeightAttribute = edgeWeightAttribute;
+        this.isMinimum = isMinimum;
         this.menu = menu;
         // Data Structures used for HAM
         visited = new boolean[nodeCount];
@@ -52,7 +58,18 @@ public class HAMCycle extends Thread{
     // prims algo
     @Override
     public void run() {
-        menu.calculatingresult(null);
+        pTreeThread = new PrimsTreeThread(wholeNetwork, currentnetworkview, isMinimum, edgeWeightAttribute, startNode, menu);
+        pTreeThread.run();
+//        if (pTreeThread != null && pTreeThread.isAlive()) {
+//            try {
+//                pTreeThread.join();
+//            }catch(InterruptedException ex){
+//            }
+//        }
+        this.STNetwork = pTreeThread.STNetwork;
+        nodeList = STNetwork.getNodeList();
+        nodeCount = STNetwork.getNodeCount();
+//        menu.calculatingresult(null);
         stop = false;
         long lStartTime = System.currentTimeMillis();
         System.out.println("Start time for HAM cycle : " + lStartTime + " milli seconds");
@@ -67,8 +84,8 @@ public class HAMCycle extends Thread{
             resultEdgeList.add(edgesTo.get(0));
         else{
             // HAM cycle does not exist 
-            System.out.println("HAM cycle cannot be created!");
-            menu.endOfComputation("HAM cycle cannot be created!");
+            System.out.println("HAM cycle cannot be created for the Prim's spanning tree!");
+            menu.endOfComputation("HAM cycle cannot be created for the Prim's spanning tree!");
             return;
         }
         if(!allNodesVisited()){
