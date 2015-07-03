@@ -2,14 +2,21 @@ package org.cytoscapeapp.cyspanningtree.internal.cycle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.CyNode;
+import org.cytoscape.model.CyRow;
+import org.cytoscape.model.CyTable;
 import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
+import org.cytoscape.task.create.NewNetworkSelectedNodesAndEdgesTaskFactory;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.work.TaskIterator;
 import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
 import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
 import static org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu.pTreeThread;
@@ -169,14 +176,39 @@ public class HAMCycle extends Thread{
     }
     
     public void createNetwork(CyNetwork network, List<CyNode> stnodeList, List<CyEdge> stedgeList){
-        CyRootNetwork root = ((CySubNetwork)network).getRootNetwork();
-        CyNetwork stNetwork = root.addSubNetwork(stnodeList, stedgeList);
-        stNetwork.getRow(stNetwork).set(CyNetwork.NAME, "Hamiltonian Cycle");
-        CyNetworkManager networkManager = CyActivator.networkManager;
-        networkManager.addNetwork(stNetwork);
-        CyNetworkView stView = CyActivator.networkViewFactory.createNetworkView(stNetwork);
-        CyActivator.networkViewManager.addNetworkView(stView);
-        SpanningTreeUpdateView.updateView(stView, "grid");// 2nd argument name of layout
+        // select the nodes and edges
+        CyTable nTable = network.getDefaultNodeTable();
+        CyTable eTable = network.getDefaultEdgeTable();
+        for(CyEdge e : stedgeList){
+            CyRow row = eTable.getRow(e.getSUID());
+            row.set("selected", true);
+        }
+        for(CyNode n : stnodeList){
+            CyRow row = eTable.getRow(n.getSUID());
+            row.set("selected", true);
+        }
+        // create the network
+        NewNetworkSelectedNodesAndEdgesTaskFactory f = CyActivator.adapter.
+                get_NewNetworkSelectedNodesAndEdgesTaskFactory();
+        TaskIterator itr = f.createTaskIterator(network);
+        CyActivator.adapter.getTaskManager().execute(itr);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PrimsTreeThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // set the name of the network
+        this.menu.calculatingresult("Created! Renaming the network...");
+        String currentNetworkName = network.getRow(network).get(CyNetwork.NAME, String.class);
+        Set<CyNetwork> allnetworks = CyActivator.networkManager.getNetworkSet();
+        long maxSUID = Integer.MIN_VALUE;
+        for(CyNetwork net : allnetworks){
+            if(net.getSUID() > maxSUID)
+                maxSUID = net.getSUID();
+        }
+        this.STNetwork = CyActivator.networkManager.getNetwork(maxSUID);
+        STNetwork.getRow(STNetwork).set(CyNetwork.NAME, currentNetworkName + " - Hamiltonian cycle");
+        
     }
     
     public void end(){

@@ -3,6 +3,9 @@ package org.cytoscapeapp.cyspanningtree.internal.spanningtree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import org.cytoscape.model.CyEdge;
@@ -13,7 +16,9 @@ import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyTable;
 import org.cytoscape.model.subnetwork.CyRootNetwork;
 import org.cytoscape.model.subnetwork.CySubNetwork;
+import org.cytoscape.task.create.NewNetworkSelectedNodesAndEdgesTaskFactory;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.work.TaskIterator;
 
 import org.cytoscapeapp.cyspanningtree.internal.SpanningTreeStartMenu;
 import org.cytoscapeapp.cyspanningtree.internal.CyActivator;
@@ -191,15 +196,39 @@ public class PrimsTreeThread extends Thread{
     }
     
     public void createNetwork(List<CyNode> stnodeList, List<CyEdge> stedgeList){
-        CyRootNetwork root = ((CySubNetwork)currentnetwork).getRootNetwork();
-        CyNetwork stNetwork = root.addSubNetwork(stnodeList, stedgeList);
-        this.STNetwork = stNetwork;
-        stNetwork.getRow(stNetwork).set(CyNetwork.NAME, "Prim's Spanning Tree");
-        CyNetworkManager networkManager = CyActivator.networkManager;
-        networkManager.addNetwork(stNetwork);
-        CyNetworkView stView = CyActivator.networkViewFactory.createNetworkView(stNetwork);
-        CyActivator.networkViewManager.addNetworkView(stView);
-        SpanningTreeUpdateView.updateView(stView, "grid");// 2nd argument name of layout
+        // select the nodes and edges
+        CyTable nTable = currentnetwork.getDefaultNodeTable();
+        CyTable eTable = currentnetwork.getDefaultEdgeTable();
+        for(CyEdge e : stedgeList){
+            CyRow row = eTable.getRow(e.getSUID());
+            row.set("selected", true);
+        }
+        for(CyNode n : stnodeList){
+            CyRow row = eTable.getRow(n.getSUID());
+            row.set("selected", true);
+        }
+        // create the network
+        NewNetworkSelectedNodesAndEdgesTaskFactory f = CyActivator.adapter.
+                get_NewNetworkSelectedNodesAndEdgesTaskFactory();
+        TaskIterator itr = f.createTaskIterator(currentnetwork);
+        CyActivator.adapter.getTaskManager().execute(itr);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PrimsTreeThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // set the name of the network
+        this.menu.calculatingresult("Created! Renaming the network...");
+        String currentNetworkName = currentnetwork.getRow(currentnetwork).get(CyNetwork.NAME, String.class);
+        Set<CyNetwork> allnetworks = CyActivator.networkManager.getNetworkSet();
+        long maxSUID = Integer.MIN_VALUE;
+        for(CyNetwork net : allnetworks){
+            if(net.getSUID() > maxSUID)
+                maxSUID = net.getSUID();
+        }
+        this.STNetwork = CyActivator.networkManager.getNetwork(maxSUID);
+        STNetwork.getRow(STNetwork).set(CyNetwork.NAME, currentNetworkName + " - Prim's Spanning Tree");
+        
     }
     
     

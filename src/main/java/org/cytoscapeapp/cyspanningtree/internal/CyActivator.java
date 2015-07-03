@@ -3,10 +3,9 @@ package org.cytoscapeapp.cyspanningtree.internal;
 import java.util.Properties;
 
 import org.cytoscape.app.CyAppAdapter;
+import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.CyApplicationManager;
-import org.cytoscape.application.events.SetSelectedNetworkViewsEvent;
 import org.cytoscape.application.swing.CySwingApplication;
-import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
@@ -16,7 +15,6 @@ import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.view.vizmap.VisualMappingFunctionFactory;
 import org.cytoscape.view.vizmap.VisualMappingManager;
 import org.cytoscape.view.vizmap.VisualStyleFactory;
-import org.cytoscapeapp.cyspanningtree.internal.visuals.ChangeEdgeAttributeListener;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
@@ -34,6 +32,7 @@ public class CyActivator extends AbstractCyActivator {
     public static VisualMappingManager vmmServiceRef;
     public static VisualMappingFunctionFactory vmfFactoryC;
     public static VisualMappingFunctionFactory vmfFactoryD;
+    public static CySwingAppAdapter adapter;
     
     @Override
     public void start(BundleContext context) throws Exception {
@@ -51,6 +50,7 @@ public class CyActivator extends AbstractCyActivator {
         this.vmmServiceRef = getService(context,VisualMappingManager.class);
         this.vmfFactoryC = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=continuous)");
         this.vmfFactoryD = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=discrete)");
+        this.adapter = getService(context,CySwingAppAdapter.class);
   
         menuaction = new SpanningTreeMenuAction(cyApplicationManager, "CySpanningTree " + version, this);
         //SpanningTreeStartMenu panel = new SpanningTreeStartMenu(this);
