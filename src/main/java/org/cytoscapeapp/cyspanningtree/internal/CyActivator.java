@@ -36,7 +36,7 @@ public class CyActivator extends AbstractCyActivator {
     
     @Override
     public void start(BundleContext context) throws Exception {
-        String version = new String("1.0");
+        String version = new String("1.1");
         this.appAdapter = getService(context, CyAppAdapter.class);
         this.networkViewManager = getService(context, CyNetworkViewManager.class);
         this.networkViewFactory = getService(context, CyNetworkViewFactory.class);
