@@ -179,9 +179,16 @@ public class HAMCycle extends Thread{
         // select the nodes and edges
         CyTable nTable = network.getDefaultNodeTable();
         CyTable eTable = network.getDefaultEdgeTable();
-        for(CyEdge e : stedgeList){
-            CyRow row = eTable.getRow(e.getSUID());
-            row.set("selected", true);
+        List<CyEdge> elist = network.getEdgeList();
+        for(CyEdge e : elist){
+            if(stedgeList.contains(e)){
+                CyRow row = eTable.getRow(e.getSUID());
+                row.set("selected", true);
+            }
+            else{
+                CyRow row = eTable.getRow(e.getSUID());
+                row.set("selected", false);
+            }
         }
         for(CyNode n : stnodeList){
             CyRow row = eTable.getRow(n.getSUID());

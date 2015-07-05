@@ -83,7 +83,6 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         helpButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setRequestFocusEnabled(false);
@@ -219,8 +218,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                         .add(kruskalsTreeButton))
                     .add(jPanel6Layout.createSequentialGroup()
                         .add(46, 46, 46)
-                        .add(HAMCycleButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(HAMCycleButton)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -316,17 +314,6 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         jLabel2.setForeground(new java.awt.Color(255, 0, 51));
         jLabel2.setText("CySpanningTree");
 
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-
         org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -335,11 +322,8 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(22, 22, 22)
                 .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel2)
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(93, 93, 93))
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -348,9 +332,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .add(jLabel2)
                 .add(18, 18, 18)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(41, 41, 41)
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel5);
@@ -361,7 +343,7 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -372,14 +354,6 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void kruskalsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kruskalsTreeButtonActionPerformed
-        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
-        currentnetwork = currentnetworkview.getModel();
-        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
-        spannigTreeThread = new KruskalsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, this);
-        spannigTreeThread.start();
-    }//GEN-LAST:event_kruskalsTreeButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         // TODO add your handling code here:
@@ -394,6 +368,40 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
         help.setVisible(true);
     }//GEN-LAST:event_helpButtonActionPerformed
 
+    private void HAMCycleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HAMCycleButtonActionPerformed
+
+        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
+        currentnetwork = currentnetworkview.getModel();
+        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
+        CyNode rootNode = askRootNode();
+        if(rootNode == null)
+        return;
+
+        hamCycleThread = new HAMCycle(pTreeThread, rootNode, currentnetwork,
+            currentnetworkview, edgeWeightAttribute, minRadioButton.isSelected(), this);
+        hamCycleThread.start();
+    }//GEN-LAST:event_HAMCycleButtonActionPerformed
+
+    private void kruskalsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kruskalsTreeButtonActionPerformed
+        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
+        currentnetwork = currentnetworkview.getModel();
+        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
+        spannigTreeThread = new KruskalsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, this);
+        spannigTreeThread.start();
+    }//GEN-LAST:event_kruskalsTreeButtonActionPerformed
+
+    private void primsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primsTreeButtonActionPerformed
+        // TODO add your handling code here:
+        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
+        currentnetwork = currentnetworkview.getModel();
+        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
+        CyNode rootNode = askRootNode();
+        if(rootNode == null)
+        return;
+        pTreeThread = new PrimsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, rootNode, this);
+        pTreeThread.start();
+    }//GEN-LAST:event_primsTreeButtonActionPerformed
+
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         // TODO add your handling code here:
         if(spannigTreeThread.isAlive()){
@@ -405,32 +413,6 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
             stopcalculus(null);
         }
     }//GEN-LAST:event_stopButtonActionPerformed
-
-    private void primsTreeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primsTreeButtonActionPerformed
-        // TODO add your handling code here:
-        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
-        currentnetwork = currentnetworkview.getModel();
-        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
-        CyNode rootNode = askRootNode();
-        if(rootNode == null)
-            return;
-        pTreeThread = new PrimsTreeThread(currentnetwork, currentnetworkview, minRadioButton.isSelected(), edgeWeightAttribute, rootNode, this);
-        pTreeThread.start();  
-    }//GEN-LAST:event_primsTreeButtonActionPerformed
-
-    private void HAMCycleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HAMCycleButtonActionPerformed
-        
-        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
-        currentnetwork = currentnetworkview.getModel();
-        edgeWeightAttribute = inputEdgeAttributeAndValidate(currentnetwork.getDefaultEdgeTable());
-        CyNode rootNode = askRootNode();
-        if(rootNode == null)
-            return;
-        
-        hamCycleThread = new HAMCycle(pTreeThread, rootNode, currentnetwork, 
-                currentnetworkview, edgeWeightAttribute, minRadioButton.isSelected(), this);
-        hamCycleThread.start();
-    }//GEN-LAST:event_HAMCycleButtonActionPerformed
 
     private void edgeAttributesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edgeAttributesComboBoxActionPerformed
         // TODO add your handling code here:
@@ -445,7 +427,6 @@ public class SpanningTreeStartMenu extends javax.swing.JPanel implements CytoPan
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
