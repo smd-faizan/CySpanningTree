@@ -4,6 +4,12 @@ INSTALLATION
 
 This app requires Cytoscape version 3.0 or higher (http://cytoscape.org/).
 
+Steps to follow:
+	1. Download and install Cytoscape from http://www.cytoscape.org/
+	2. install CySpanningTree from http://apps.cytoscape.org/apps/cyspanningtree 
+	   (if you just want to try out CySpanningTree)
+	3. Clone the repo and build with maven (instructions below)
+
 ==================================================================
 BUILDING WITH APACHE MAVEN
 ==================================================================
@@ -18,32 +24,8 @@ SpanningTree v1.0
 
 This app lets you extract Spanning tree for a given cytoscape network through Prim's and Kruskal's algorithms.
 
-
-# README #
-
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
 ### Who do I talk to? ###
 
 * Repo owners : smd.faizan@gmail.com (Faizaan), srikanth.5283@gmail.com (Srikanth Bezawada)
+
+https://zenodo.org/badge/doi/10.5281/zenodo.19668.svg
