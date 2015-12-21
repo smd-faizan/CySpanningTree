@@ -197,16 +197,25 @@ public class PrimsTreeThread extends Thread{
     
     public void createNetwork(List<CyNode> stnodeList, List<CyEdge> stedgeList){
         // select the nodes and edges
+        List<CyNode> nodeList = currentnetwork.getNodeList();
+        List<CyEdge> edgeList = currentnetwork.getEdgeList();
         CyTable nTable = currentnetwork.getDefaultNodeTable();
         CyTable eTable = currentnetwork.getDefaultEdgeTable();
-        for(CyEdge e : stedgeList){
+        
+        for(CyNode n : nodeList){
+            CyRow row = nTable.getRow(n.getSUID());
+            row.set("selected", true);
+        }
+        
+        for(CyEdge e: edgeList){
             CyRow row = eTable.getRow(e.getSUID());
-            row.set("selected", true);
+            if(stedgeList.contains(e)){
+                row.set("selected", true);
+            } else{
+                row.set("selected", false);
+            }
         }
-        for(CyNode n : stnodeList){
-            CyRow row = eTable.getRow(n.getSUID());
-            row.set("selected", true);
-        }
+        
         // create the network
         NewNetworkSelectedNodesAndEdgesTaskFactory f = CyActivator.adapter.
                 get_NewNetworkSelectedNodesAndEdgesTaskFactory();

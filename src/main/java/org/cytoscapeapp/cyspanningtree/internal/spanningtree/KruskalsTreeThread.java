@@ -227,15 +227,22 @@ public class KruskalsTreeThread extends Thread {
             }
         }
         // select the nodes and edges
+        List<CyEdge> edgeList = currentnetwork.getEdgeList();
         CyTable nTable = currentnetwork.getDefaultNodeTable();
         CyTable eTable = currentnetwork.getDefaultEdgeTable();
-        for(CyEdge e : stEdgeList){
-            CyRow row = eTable.getRow(e.getSUID());
+        
+        for(CyNode n : nodeList){
+            CyRow row = nTable.getRow(n.getSUID());
             row.set("selected", true);
         }
-        for(CyNode n : nodeList){
-            CyRow row = eTable.getRow(n.getSUID());
-            row.set("selected", true);
+        
+        for(CyEdge e: edgeList){
+            CyRow row = eTable.getRow(e.getSUID());
+            if(stEdgeList.contains(e)){
+                row.set("selected", true);
+            } else{
+                row.set("selected", false);
+            }
         }
         // create the network
         NewNetworkSelectedNodesAndEdgesTaskFactory f = CyActivator.adapter.
