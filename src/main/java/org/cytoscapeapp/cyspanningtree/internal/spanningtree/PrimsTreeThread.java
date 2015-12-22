@@ -204,7 +204,7 @@ public class PrimsTreeThread extends Thread{
         
         for(CyNode n : nodeList){
             CyRow row = nTable.getRow(n.getSUID());
-            row.set("selected", true);
+            row.set("selected", false);
         }
         
         for(CyEdge e: edgeList){
